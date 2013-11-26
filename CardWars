@@ -1,0 +1,137 @@
+using System;
+using System.Numerics;
+    class CardWars
+    {
+        static void Main()
+        {
+            // Global game counters
+            BigInteger totalPointsPlayer1 = 0;
+            BigInteger totalPointsPlayer2 = 0;
+            int gamesWonByPlayerOne = 0;
+            int gamesWonByPlayerTwo = 0;
+            bool xCardDrawnByPlayerOne = false;
+            bool xCardDrawnByPlayerTwo = false;
+
+            int numberOfGames = int.Parse(Console.ReadLine());
+            for (int i = 0; i < numberOfGames; i++)
+            {
+                // Current game counters
+                int scorePlayerOne = 0;
+                int scorePlayerTwo = 0;
+
+                //first player cards drawn
+                for (int j = 0; j < 3; j++)
+                {
+                    string firstPlayerCard = Console.ReadLine();
+
+                    switch (firstPlayerCard)
+                    {
+                        case "A": scorePlayerOne += 1;
+                            break;
+                        case "J": scorePlayerOne += 11;
+                            break;
+                        case "Q": scorePlayerOne += 12;
+                            break;
+                        case "K": scorePlayerOne += 13;
+                            break;
+                        case "Z": totalPointsPlayer1 *= 2;
+                            break;
+                        case "Y": totalPointsPlayer1 -= 200;
+                            break;
+                        case "X": xCardDrawnByPlayerOne = true;
+                            break;
+
+                        default: scorePlayerOne += (12 - Convert.ToInt32(firstPlayerCard));
+                            break;
+                    }
+                }
+                //second player cards drawn
+                for (int j = 0; j < 3; j++)
+                {
+                    string secondPlayerCard = Console.ReadLine();
+
+                    switch (secondPlayerCard)
+                    {
+                        case "A": scorePlayerTwo += 1;
+                            break;
+                        case "J": scorePlayerTwo += 11;
+                            break;
+                        case "Q": scorePlayerTwo += 12;
+                            break;
+                        case "K": scorePlayerTwo += 13;
+                            break;
+                        case "Z": totalPointsPlayer2 *= 2;
+                            break;
+                        case "Y": totalPointsPlayer2 -= 200;
+                            break;
+                        case "X": xCardDrawnByPlayerTwo = true;
+                            break;
+
+                        default: scorePlayerTwo += (12 - Convert.ToInt32(secondPlayerCard));
+                            break;
+                    }
+                }
+                // Special cards check: process the "X" card
+                if (xCardDrawnByPlayerOne && xCardDrawnByPlayerTwo)
+                {
+                    totalPointsPlayer1 += 50;
+                    totalPointsPlayer2 += 50;
+                }
+                else if (xCardDrawnByPlayerOne)
+                {
+                    break;
+                    //Console.WriteLine("X card drawn! Player one wins the match!");
+                }
+                else if (xCardDrawnByPlayerTwo)
+                {
+                    break;
+                    // Console.WriteLine("X card drawn! Player two wins the match!");
+                }
+
+                // Calculate the winner
+                if (scorePlayerOne > scorePlayerTwo)
+                {
+                    totalPointsPlayer1 += scorePlayerOne;
+                    gamesWonByPlayerOne++;
+                }
+                else if (scorePlayerOne < scorePlayerTwo)
+                {
+                    totalPointsPlayer2 += scorePlayerTwo;
+                    gamesWonByPlayerTwo++;
+                }
+                
+                // Reset the counters for the next game
+                scorePlayerOne = 0;
+                scorePlayerTwo = 0;
+                xCardDrawnByPlayerOne = false;
+                xCardDrawnByPlayerTwo = false; 
+            }
+                // Print the results at the console
+                if (xCardDrawnByPlayerOne)
+                {
+                    Console.WriteLine("X card drawn! Player one wins the match!");
+                }
+                else if (xCardDrawnByPlayerTwo)
+                {
+                    Console.WriteLine("X card drawn! Player two wins the match!");
+                }
+                else if (totalPointsPlayer1 > totalPointsPlayer2)
+                {
+                    Console.WriteLine("First player wins!");
+                    Console.WriteLine("Score: {0}", totalPointsPlayer1);
+                    Console.WriteLine("Games won: {0}", gamesWonByPlayerOne);
+                }
+                else if (totalPointsPlayer1 < totalPointsPlayer2)
+                {
+                    Console.WriteLine("Second player wins!");
+                    Console.WriteLine("Score: {0}", totalPointsPlayer2);
+                    Console.WriteLine("Games won: {0}", gamesWonByPlayerTwo);
+                }
+                else
+                {
+                    Console.WriteLine("It's a tie!");
+                    Console.WriteLine("Score: {0}", totalPointsPlayer1);
+                }
+            }
+            
+        }
